@@ -1,10 +1,12 @@
-import math
 import time
 import BackEnd
 from tkinter import *
 from tkinter.font import *
 
 GUI = Tk()
+graph = Canvas(width=1280, height=680)
+graph.create_line(160, 637.45, 1120, 637.45, width = 5 )
+graph.create_line(160, 640, 160, 42.5, width = 5 )
 class entry(Entry):
     def __init__(self, *args, **kwargs):
         Entry.__init__(self, *args, **kwargs)
@@ -43,6 +45,8 @@ class storage:
     height = 1, width = 8)  # Back
     ButtonC = button(GUI, text = "Bắt Đầu!", command = lambda: BackEnd.StartCal(storage.choice),
     height = 1, width = 8)  # Confirmed
+    ButtonBa = button(graph, text = "Quay lại", command = lambda: manager.Start(1), 
+    height = 1, width = 8)  # Back Pace Graph
     BoxHeight = entry(GUI, width = 9)
     BoxTime = entry(GUI, width = 9)
     BoxSpeed = entry(GUI, width = 9)
@@ -95,6 +99,14 @@ class show:
         #Show button
         storage.ButtonB.place(relx = 1, rely = 0, anchor = NE)
         storage.ButtonC.place(relx = 0.5, rely = 0.85, anchor = CENTER)
+    def ShowButtonGraph():
+        storage.ButtonBa.place(relx =  1, rely = 0, anchor = NE)
+    def ShowUIGraph():
+        graph.pack()
+        show.ShowButtonGraph()
+        hide.HideEntry()
+        hide.HideButton02()
+        hide.HideText02()
 
 class hide:
     def HideEntry():
@@ -121,13 +133,15 @@ class hide:
     def HideButton02():
         storage.ButtonB.place_forget()
         storage.ButtonC.place_forget()
-
+    def HideButtonGraph():
+        storage.ButtonBa.place_forget()
 class manager:
     def Start( value ):
         global button
         if ( value == -1 ):
             exit()
         if ( value < 2 ): # Run Page 1
+            graph.pack_forget()
             storage.choice = value
             hide.HideButton01()
             hide.HideText01()
@@ -140,10 +154,9 @@ class manager:
             hide.HideEntry()
             hide.HideButton02()
             hide.HideText02()
-        return value;
 #--- Start ---#
 def UI():
-    global GUI
+    global GUI, graph
     GUI.title("MÔ PHỎNG CHUYỂN CÁC DẠNG CHUYỂN ĐỘNG")
     GUI.geometry("1280x680")
     GUI.configure(bg="#CDCDB4")
