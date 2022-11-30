@@ -59,6 +59,7 @@ class storage:
     TextDis = TextUI(GUI, text = "Nhập mốc tọa độ bề ngang của vật (m)", height = 1, width = 45)
     TextTime = TextUI(GUI, text = "Nhập mốc thời gian của vật (s)", height = 1, width = 35)
     TextSpeed = TextUI(GUI, text = "Nhập vật tốc ban đầu của vật (m/s)", height = 1, width = 40)
+    TextWA = TextUI(GUI, text = "Vui lòng nhập lại", height = 1, width = 30)
     choice = None
 #test = button(GUI, text = "Ném", command = lambda: manager.Start(0), height = 4, width = 7)
 #test.place(relx = 0.5, rely = 0.25, anchor = CENTER)
@@ -87,7 +88,10 @@ class show:
             storage.TextAngle.place(relx = 0.5, rely = 0.05, anchor = CENTER)
         storage.TextDis.place(relx = 0.5, rely = 0.25, anchor = CENTER)
         storage.TextTime.place(relx = 0.5, rely = 0.45, anchor = CENTER)
-        storage.TextSpeed.place(relx=0.5, rely = 0.65, anchor = CENTER)
+        storage.TextSpeed.place(relx = 0.5, rely = 0.65, anchor = CENTER)
+
+    def ShowTextWA():
+        storage.TextWA.place(relx = 0.5, rely = 0.95, anchor = CENTER )
 
     def ShowButton01():
         #Show button
@@ -118,6 +122,7 @@ class hide:
 
     def HideText01():
         storage.TextTitle.place_forget()
+
     def HideText02():
         storage.TextHeight.place_forget()
         storage.TextDis.place_forget()
@@ -125,6 +130,9 @@ class hide:
         storage.TextSpeed.place_forget()
         storage.TextAngle.place_forget()
         storage.TextSpeed.place_forget()
+
+    def HideTextWA():
+        storage.TextWA.place_forget()
 
     def HideButton01():
         storage.ButtonN.place_forget()
@@ -154,6 +162,7 @@ class manager:
             hide.HideEntry()
             hide.HideButton02()
             hide.HideText02()
+            hide.HideTextWA()
 #--- Start ---#
 def UI():
     global GUI, graph

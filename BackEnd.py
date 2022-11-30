@@ -16,9 +16,14 @@ def GetValue( value ):
     speed = float(GUI.storage.BoxSpeed.get())
 
 def StartCal( value ):
-    GUI.show.ShowUIGraph()
     global timef
-    GetValue( value )
+    try:
+        GetValue( value )
+    except:
+        GUI.show.ShowTextWA()
+        return
+    GUI.hide.HideTextWA()
+    GUI.show.ShowUIGraph()
     if ( value == 0 ):
         timef = math.sqrt(2 * h / (math.pi * math.pi))
     timefix = int((int(timef / 5) + 1) * 5)
