@@ -16,7 +16,8 @@ def GetValue( value ):
     speed = float(GUI.storage.BoxSpeed.get())
 
 def StartCal( value ):
-    global timef
+    print(value)
+    global timef, h, angel, t, speed, dis
     try:
         GetValue( value )
     except:
@@ -28,4 +29,6 @@ def StartCal( value ):
         timef = math.sqrt(2 * h / (math.pi * math.pi))
     timefix = int((int(timef / 5) + 1) * 5)
     timemin = int(timefix / 5)
-    print("Time fall", timef, "Time min", timemin)
+    temp = timefix / int( timefix / timef )
+    print("Or", temp, "Time fall", timef, "Time min", timemin)
+    return

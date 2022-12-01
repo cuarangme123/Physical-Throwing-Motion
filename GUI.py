@@ -45,7 +45,7 @@ class storage:
     height = 1, width = 8)  # Back
     ButtonC = button(GUI, text = "Bắt Đầu!", command = lambda: BackEnd.StartCal(storage.choice),
     height = 1, width = 8)  # Confirmed
-    ButtonBa = button(graph, text = "Quay lại", command = lambda: manager.Start(1), 
+    ButtonBa = button(graph, text = "Quay lại", command = lambda: manager.Start(storage.choice), 
     height = 1, width = 8)  # Back Pace Graph
     BoxHeight = entry(GUI, width = 9)
     BoxTime = entry(GUI, width = 9)
