@@ -30,6 +30,18 @@ def StartCal( value ):
     GUI.show.ShowUIGraph()
     if ( value == 0 ):
         Timefall = math.sqrt(2 * Height / (math.pi * math.pi))
-    AfterDistance = Distance + Speed * Timefall
+    Div = 5
+    AfterDistance = Speed * Timefall
+    if ( AfterDistance >= 2 * Div ):
+        AfterDistance = int(AfterDistance)
+        AfterDistance += Div - ( AfterDistance % Div )
+    else:
+        f, temp = 10, AfterDistance * 10
+        while ( temp < 2 * Div ):
+            temp *= 10
+            f *= 10
+        temp = int(temp)
+        temp += Div - (temp % Div)
+        AfterDistance = temp / f
     print("Time fall: ", Timefall, "\nDistance:", AfterDistance)
     return
