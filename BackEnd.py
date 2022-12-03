@@ -4,25 +4,29 @@ from tkinter import *
 from tkinter.font import *
 
 # Give Value
-Height, Angel, Time, Speed, Distance = None, None, None, None, None
-# Cal Value
-FixDistance, Dismin, Timefall, TotalDistance, FixHeight, Hmin = None, None, None, None, None, None
+HeightA, AngelA, SpeedA, HeightB, AngelB, SpeedB = None, None, None, None, None, None
 
-def GetValue( value ):
-    global Height, Angel, Time, Speed, Distance
-    if ( value == 0 ):
-        Height = float(GUI.storage.BoxHeight.get())
+def GetValue( ValueA, ValueB ):
+    global HeightA, AngelA, SpeedA, HeightB, AngelB, SpeedB
+    if ( ValueA == 0 ):
+        HeightA = float(GUI.storage.BoxHeightA.get())
     else:
-        Angel = float(GUI.storage.BoxAngle.get())
-    Distance = float(GUI.storage.BoxDis.get())
-    Time = float(GUI.storage.BoxTime.get())
-    Speed = float(GUI.storage.BoxSpeed.get())
+        AngelA = float(GUI.storage.BoxAngleA.get())
+    SpeedA = float(GUI.storage.BoxSpeedA.get())
+    if ( ValueB == 0 ):
+        HeightB = float(GUI.storage.BoxHeightA.get())
+    else:
+        AngelB = float(GUI.storage.BoxAngleA.get())
+    SpeedB = float(GUI.storage.BoxSpeedA.get())
 
 def fixNum( value ):
     Div = 5
     if ( value >= 2 * Div ):
         value = int(value)
-        value += Div - ( value % Div )
+        t = value % Div
+        value += Div - t
+        if ( ( value / 5 ) % 2 != 0 ):
+            value += 5
     else:
         f, temp = 10, value * 10
         while ( temp < 2 * Div ):
@@ -30,28 +34,29 @@ def fixNum( value ):
             f *= 10
         temp = int(temp)
         temp += Div - (temp % Div)
+        if ( ( temp / 5 ) % 2 != 0 ):
+            temp += 5
         value = temp / f
     return value
 
-def Nem():
-    global Timefall, Height, Time, Speed, Distance, FixDistance, TotalDistance
-    global FixHeight, Hmin
+def Nem( Height, Speed ):
     Timefall = math.sqrt(2 * Height / (math.pi * math.pi))
     TotalDistance = Speed * Timefall
     FixDistance = fixNum(TotalDistance)
-    TotalDistance += Distance
     FixHeight = fixNum(Height)
     print("FixDistance:", FixDistance, "\nFixHeight", FixHeight)
 
-def StartCal( value ):
-    print(value)
+def StartCal( ValueA, ValueB ):
+    print(ValueA, ValueB)
     try:
-        GetValue( value )
+        GetValue( ValueA, ValueB )
     except:
         GUI.show.ShowTextWA()
         return
     GUI.hide.HideTextWA()
     GUI.show.ShowUIGraph()
-    if ( value == 0 ):
-        Nem()
+    if ( ValueA == 0 ):
+        Nem(HeightA, SpeedA)
+    if ( ValueB == 0 ):
+        Nem(HeightB, SpeedB)
     return

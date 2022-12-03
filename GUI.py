@@ -43,52 +43,75 @@ class storage:
     height = 4, width = 11) # Xien
     ButtonB = button(GUI, text = "Quay lại", command = lambda: manager.Start(2), 
     height = 1, width = 8)  # Back
-    ButtonC = button(GUI, text = "Bắt Đầu!", command = lambda: BackEnd.StartCal(storage.choice),
+    ButtonC = button(GUI, text = "Bắt Đầu!", command = lambda: BackEnd.StartCal(storage.choiceA, storage.choiceB),
     height = 1, width = 8)  # Confirmed
-    ButtonBa = button(graph, text = "Quay lại", command = lambda: manager.Start(storage.choice), 
-    height = 1, width = 8)  # Back Pace Graph
-    BoxHeight = entry(GUI, width = 9)
-    BoxTime = entry(GUI, width = 9)
-    BoxSpeed = entry(GUI, width = 9)
-    BoxHeight = entry(GUI, width = 9)
-    BoxAngle = entry(GUI, width = 9)
-    BoxDis = entry(GUI, width = 9)
+    ButtonBa = button(graph, text = "Quay lại", command = lambda: manager.Start(0), 
+    height = 1, width = 8)  # Back Page Graph
+
+    BoxSpeedA = entry(GUI, width = 9)
+    BoxHeightA = entry(GUI, width = 9)
+    BoxAngleA = entry(GUI, width = 9)
+
+    ###################################
+
+    BoxSpeedB = entry(GUI, width = 9)
+    BoxHeightB = entry(GUI, width = 9)
+    BoxAngleB = entry(GUI, width = 9)
+
     TextTitle = TextUI(GUI, text = "Chọn dạng chuyển động:", height = 2, width = 40)
-    TextHeight = TextUI(GUI, text = "Nhập độ cao của vật (m)", height = 1, width = 25)
-    TextAngle = TextUI(GUI, text = "Nhập số đo góc của vật khi ném (°)", height = 1, width = 40)
-    TextDis = TextUI(GUI, text = "Nhập mốc tọa độ bề ngang của vật (m)", height = 1, width = 45)
-    TextTime = TextUI(GUI, text = "Nhập mốc thời gian của vật (s)", height = 1, width = 35)
-    TextSpeed = TextUI(GUI, text = "Nhập vật tốc ban đầu của vật (m/s)", height = 1, width = 40)
+    TextEntry = TextUI(GUI, height = 2, width = 15)
+
+    TextHeightA = TextUI(GUI, text = "Nhập độ cao của vật A (m)", height = 1, width = 30)
+    TextAngleA = TextUI(GUI, text = "Nhập gốc ném của vật A (°)", height = 1, width = 30)
+    TextSpeedA = TextUI(GUI, text = "Nhập vật tốc của vật A (m/s)", height = 1, width = 30)
+
+    ######################################################################################
+
+    TextHeightB = TextUI(GUI, text = "Nhập độ cao của vật B (m)", height = 1, width = 30)
+    TextAngleB = TextUI(GUI, text = "Nhập gốc ném của vật B (°)", height = 1, width = 30)
+    TextSpeedB = TextUI(GUI, text = "Nhập vật tốc của vật B (m/s)", height = 1, width = 30)
     TextWA = TextUI(GUI, text = "Vui lòng nhập lại", height = 1, width = 30)
-    choice = None
+    Choice, choiceA, choiceB = None, None, None
 #test = button(GUI, text = "Ném", command = lambda: manager.Start(0), height = 4, width = 7)
 #test.place(relx = 0.5, rely = 0.25, anchor = CENTER)
 
 class show:
-    def ShowEntry(value):
-        if ( value == 0 ):
-            storage.BoxHeight.place(relx = 0.5, rely = 0.15, anchor = CENTER)
-            storage.BoxHeight.delete(0, 'end')
+    def ShowEntry( ValueA, ValueB ):
+        if ( ValueA == 0 ):
+            storage.BoxHeightA.place(relx = 0.5, rely = 0.15, anchor = CENTER)
+            storage.BoxHeightA.delete(0, 'end')
         else:
-            storage.BoxAngle.place(relx = 0.5, rely = 0.15, anchor = CENTER)
-            storage.BoxAngle.delete(0, 'end')
-        storage.BoxDis.place(relx = 0.5, rely = 0.35, anchor = CENTER)
-        storage.BoxDis.delete(0, 'end')
-        storage.BoxTime.place(relx = 0.5, rely = 0.55, anchor = CENTER)
-        storage.BoxTime.delete(0, 'end')
-        storage.BoxSpeed.place(relx = 0.5, rely = 0.75, anchor = CENTER)
-        storage.BoxSpeed.delete(0, 'end')
+            storage.BoxAngleA.place(relx = 0.5, rely = 0.15, anchor = CENTER)
+            storage.BoxAngleA.delete(0, 'end')
+        storage.BoxSpeedA.place(relx = 0.5, rely = 0.35, anchor = CENTER)
+        storage.BoxSpeedA.delete(0, 'end')
+        if ( ValueB == 0 ):
+            storage.BoxHeightB.place(relx = 0.5, rely = 0.55, anchor = CENTER)
+            storage.BoxHeightB.delete(0, 'end')
+        else:
+            storage.BoxAngleB.place(relx = 0.5, rely = 0.55, anchor = CENTER)
+            storage.BoxAngleB.delete(0, 'end')
+        storage.BoxSpeedB.place(relx = 0.5, rely = 0.75, anchor = CENTER)
+        storage.BoxSpeedB.delete(0, 'end')
 
     def ShowText01():
         storage.TextTitle.place(relx = 0.5, rely = 0.15, anchor = CENTER)
-    def ShowText02(value):
-        if ( value == 0 ):
-            storage.TextHeight.place(relx = 0.5, rely = 0.05, anchor = CENTER)
+        storage.TextEntry.place(relx = 0.5, rely = 0.4, anchor = CENTER)
+        
+        storage.TextEntry.configure(text = "Chọn vật A")
+        storage.Choice = True
+
+    def ShowText02( ValueA, ValueB ):
+        if ( ValueA == 0 ):
+            storage.TextHeightA.place(relx = 0.5, rely = 0.05, anchor = CENTER)
         else:
-            storage.TextAngle.place(relx = 0.5, rely = 0.05, anchor = CENTER)
-        storage.TextDis.place(relx = 0.5, rely = 0.25, anchor = CENTER)
-        storage.TextTime.place(relx = 0.5, rely = 0.45, anchor = CENTER)
-        storage.TextSpeed.place(relx = 0.5, rely = 0.65, anchor = CENTER)
+            storage.TextAngleA.place(relx = 0.5, rely = 0.05, anchor = CENTER)
+        storage.TextSpeedA.place(relx = 0.5, rely = 0.25, anchor = CENTER)
+        if ( ValueB == 0 ):
+            storage.TextHeightB.place(relx = 0.5, rely = 0.45, anchor = CENTER)
+        else:
+            storage.TextAngleB.place(relx = 0.5, rely = 0.45, anchor = CENTER)
+        storage.TextSpeedB.place(relx = 0.5, rely = 0.65, anchor = CENTER)
 
     def ShowTextWA():
         storage.TextWA.place(relx = 0.5, rely = 0.95, anchor = CENTER )
@@ -114,22 +137,26 @@ class show:
 
 class hide:
     def HideEntry():
-        storage.BoxAngle.place_forget()
-        storage.BoxHeight.place_forget()
-        storage.BoxDis.place_forget()
-        storage.BoxTime.place_forget()
-        storage.BoxSpeed.place_forget()
+        storage.BoxHeightA.place_forget()
+        storage.BoxAngleA.place_forget()
+        storage.BoxSpeedA.place_forget()
+        ################################
+        storage.BoxHeightB.place_forget()
+        storage.BoxAngleB.place_forget()
+        storage.BoxSpeedB.place_forget()
 
     def HideText01():
         storage.TextTitle.place_forget()
+        storage.TextEntry.place_forget()
 
     def HideText02():
-        storage.TextHeight.place_forget()
-        storage.TextDis.place_forget()
-        storage.TextTime.place_forget()
-        storage.TextSpeed.place_forget()
-        storage.TextAngle.place_forget()
-        storage.TextSpeed.place_forget()
+        storage.TextHeightA.place_forget()
+        storage.TextAngleA.place_forget()
+        storage.TextSpeedA.place_forget()
+        #################################
+        storage.TextHeightB.place_forget()
+        storage.TextAngleB.place_forget()
+        storage.TextSpeedB.place_forget()
 
     def HideTextWA():
         storage.TextWA.place_forget()
@@ -149,13 +176,18 @@ class manager:
         if ( value == -1 ):
             exit()
         if ( value < 2 ): # Run Page 1
-            graph.pack_forget()
-            storage.choice = value
-            hide.HideButton01()
-            hide.HideText01()
-            show.ShowEntry(value)
-            show.ShowButton02()
-            show.ShowText02(value)
+            if ( storage.Choice ):
+                storage.TextEntry.configure(text = "Chọn vật B")
+                storage.choiceA = value
+                storage.Choice = False
+            else:
+                storage.choiceB = value
+                graph.pack_forget()
+                hide.HideButton01()
+                hide.HideText01()
+                show.ShowEntry(storage.choiceA, storage.choiceB)
+                show.ShowButton02()
+                show.ShowText02(storage.choiceA, storage.choiceB)
         elif ( value == 2 ): # Back Page 1
             show.ShowButton01()
             show.ShowText01()
