@@ -6,7 +6,7 @@ from tkinter.font import *
 # Give Value
 Height, Angel, Time, Speed, Distance = None, None, None, None, None
 # Cal Value
-FixDistance, Dismin, Timefall, TotalDistance = None, None, None, None
+FixDistance, Dismin, Timefall, TotalDistance, FixHeight, Hmin = None, None, None, None, None, None
 
 def GetValue( value ):
     global Height, Angel, Time, Speed, Distance
@@ -35,10 +35,13 @@ def fixNum( value ):
 
 def Nem():
     global Timefall, Height, Time, Speed, Distance, FixDistance, TotalDistance
+    global FixHeight, Hmin
     Timefall = math.sqrt(2 * Height / (math.pi * math.pi))
     TotalDistance = Speed * Timefall
     FixDistance = fixNum(TotalDistance)
     TotalDistance += Distance
+    FixHeight = fixNum(Height)
+    print("FixDistance:", FixDistance, "\nFixHeight", FixHeight)
 
 def StartCal( value ):
     print(value)
