@@ -36,7 +36,6 @@ def fixNum( value ):
 def Nem():
     global Timefall, Height, Time, Speed, Distance, FixDistance, TotalDistance
     Timefall = math.sqrt(2 * Height / (math.pi * math.pi))
-    Div = 5
     TotalDistance = Speed * Timefall
     FixDistance = fixNum(TotalDistance)
     TotalDistance += Distance
