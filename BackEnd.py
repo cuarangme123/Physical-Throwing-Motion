@@ -6,7 +6,7 @@ from tkinter.font import *
 # Give Value
 Height, Angel, Time, Speed, Distance = None, None, None, None, None
 # Cal Value
-AfterDistance, Dismin, Timefall = None, None, None
+FixDistance, Dismin, Timefall, TotalDistance = None, None, None, None
 
 def GetValue( value ):
     global Height, Angel, Time, Speed, Distance
@@ -18,9 +18,31 @@ def GetValue( value ):
     Time = float(GUI.storage.BoxTime.get())
     Speed = float(GUI.storage.BoxSpeed.get())
 
+def fixNum( value ):
+    Div = 5
+    if ( value >= 2 * Div ):
+        value = int(value)
+        value += Div - ( value % Div )
+    else:
+        f, temp = 10, value * 10
+        while ( temp < 2 * Div ):
+            temp *= 10
+            f *= 10
+        temp = int(temp)
+        temp += Div - (temp % Div)
+        value = temp / f
+    return value
+
+def Nem():
+    global Timefall, Height, Time, Speed, Distance, FixDistance, TotalDistance
+    Timefall = math.sqrt(2 * Height / (math.pi * math.pi))
+    Div = 5
+    TotalDistance = Speed * Timefall
+    FixDistance = fixNum(TotalDistance)
+    TotalDistance += Distance
+
 def StartCal( value ):
     print(value)
-    global Timefall, Height, Angel, Time, Speed, Distance, AfterDistance
     try:
         GetValue( value )
     except:
@@ -29,19 +51,5 @@ def StartCal( value ):
     GUI.hide.HideTextWA()
     GUI.show.ShowUIGraph()
     if ( value == 0 ):
-        Timefall = math.sqrt(2 * Height / (math.pi * math.pi))
-    Div = 5
-    AfterDistance = Speed * Timefall
-    if ( AfterDistance >= 2 * Div ):
-        AfterDistance = int(AfterDistance)
-        AfterDistance += Div - ( AfterDistance % Div )
-    else:
-        f, temp = 10, AfterDistance * 10
-        while ( temp < 2 * Div ):
-            temp *= 10
-            f *= 10
-        temp = int(temp)
-        temp += Div - (temp % Div)
-        AfterDistance = temp / f
-    print("Time fall: ", Timefall, "\nDistance:", AfterDistance)
+        Nem()
     return
