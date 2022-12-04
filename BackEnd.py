@@ -65,17 +65,44 @@ def Nem( Height, Speed, Color ):
     if ( Ys != Height ):
         more = abs(Ys - Height)
     Time, posX, posY = 0, 0, 0
-    while ( posY <= EndY ):
+    while ( posY <= EndY - 7 ):
         Time += 0.01
-        posX = ( Speed * Time / ScaleX ) + BeginX
+        posX = ( Speed * Time / ScaleX ) + BeginX + 3
         posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
         if ( more != None ):
             posY += (more / ScaleY)
-        GUI.graph.create_rectangle(posX,posY,posX,posY,outline=Color, width=5)
+        GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2)
         time.sleep(0.001)
 
+def CalScale( ValueA, ValueB ):
+    global ScaleX, ScaleY, Ys, TimefallScr
+    if ( ValueA == 0 ):
+        ScaleX = SpeedA * TimefallScr / WidthScr
+        ScaleY = HeightA
+    if ( ValueB == 0 ):
+        ScaleX = max(ScaleX, SpeedB * TimefallScr / WidthScr)
+        ScaleY = max(ScaleY, HeightB)
+    print(ScaleX)
+    Ys = ScaleY
+    ScaleY /= HeightScr
+    if ( ValueA == 0 ):
+        if ( Ys != HeightA ):
+            temp = HeightScr - (HeightA / ScaleY)
+            TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
+            ScaleX = SpeedA * TimefallScr / WidthScr
+        else:
+            TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
+            ScaleX = SpeedA * TimefallScr / WidthScr
+    if ( ValueB == 0 ):
+        if ( Ys != HeightB ):
+            temp = HeightScr - (HeightB / ScaleY)
+            TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
+            ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
+        else:
+            TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
+            ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
 def StartCal( ValueA, ValueB ):
-    global ScaleX, ScaleY, Ys
+    global ScaleX, ScaleY, Ys, TimefallScr
     print(ValueA, ValueB)
     try:
         GetValue( ValueA, ValueB )
@@ -84,15 +111,7 @@ def StartCal( ValueA, ValueB ):
         return
     GUI.hide.HideTextWA()
     GUI.show.ShowUIGraph()
-    if ( ValueA == 0 ):
-        ScaleX = SpeedA * TimefallScr / WidthScr
-        ScaleY = HeightA
-    if ( ValueB == 0 ):
-        ScaleX = max(ScaleX, SpeedB * TimefallScr / WidthScr)
-        ScaleY = max(ScaleY, HeightB)
-    Ys = ScaleY
-    ScaleY /= HeightScr
-    print(ScaleY)
+    CalScale( ValueA, ValueB )
     if ( ValueA == 0 ):
         _thread.start_new_thread(Nem, (HeightA, SpeedA, "red"))
     if ( ValueB == 0 ):
