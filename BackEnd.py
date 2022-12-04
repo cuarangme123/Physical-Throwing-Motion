@@ -105,36 +105,39 @@ def CalScale( ValueA, ValueB ):
         ScaleXX = WidMax / WidthScr
     Ys = ScaleY
     ScaleY /= HeightScr
-    if ( ValueA == 0 ):
-        if ( Ys != HeightA ):
-            temp = Ys - HeightA
-            temp = HeightScr - (temp / ScaleY)
-            TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
-            ScaleX = SpeedA * TimefallScr / WidthScr
-        else:
-            TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
-            ScaleX = SpeedA * TimefallScr / WidthScr
-    if ( ValueB == 0 ):
-        if ( Ys != HeightB ):
-            temp = Ys - HeightB
-            temp = HeightScr - (temp / ScaleY)
-            TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
-            if ( ScaleX != None ):
-                ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
+    fix = ScaleY
+    for i in range(31415):
+        if ( ValueA == 0 ):
+            if ( Ys != HeightA ):
+                temp = Ys - HeightA
+                temp = HeightScr - (temp / fix)
+                TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
+                ScaleX = SpeedA * TimefallScr / WidthScr
             else:
-                ScaleX = SpeedB * TimefallScr / WidthScr
-        else:
-            TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
-            if ( ScaleX != None ):
-                ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
+                TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
+                ScaleX = SpeedA * TimefallScr / WidthScr
+        if ( ValueB == 0 ):
+            if ( Ys != HeightB ):
+                temp = Ys - HeightB
+                temp = HeightScr - (temp / fix)
+                TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
+                if ( ScaleX != None ):
+                    ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
+                else:
+                    ScaleX = SpeedB * TimefallScr / WidthScr
             else:
-                ScaleX = SpeedB * TimefallScr / WidthScr
-    if ( ScaleXX != None ):
-        if ( ScaleX != None ):
-            ScaleX = max(ScaleX, ScaleXX)
-        else:
-            ScaleX = ScaleXX
-    ScaleXY = min(ScaleX, ScaleY)
+                TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
+                if ( ScaleX != None ):
+                    ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
+                else:
+                    ScaleX = SpeedB * TimefallScr / WidthScr
+        if ( ScaleXX != None ):
+            if ( ScaleX != None ):
+                ScaleX = max(ScaleX, ScaleXX)
+            else:
+                ScaleX = ScaleXX
+        ScaleXY = max(ScaleX, ScaleY)
+        fix = ScaleXY
     print(ScaleX) 
     print(ScaleY)
     print(ScaleXY)
