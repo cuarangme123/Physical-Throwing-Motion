@@ -77,17 +77,16 @@ def Nem( Height, Speed, Color ):
 def CalScale( ValueA, ValueB ):
     global ScaleX, ScaleY, Ys, TimefallScr
     if ( ValueA == 0 ):
-        ScaleX = SpeedA * TimefallScr / WidthScr
         ScaleY = HeightA
     if ( ValueB == 0 ):
-        ScaleX = max(ScaleX, SpeedB * TimefallScr / WidthScr)
         ScaleY = max(ScaleY, HeightB)
     print(ScaleX)
     Ys = ScaleY
     ScaleY /= HeightScr
     if ( ValueA == 0 ):
         if ( Ys != HeightA ):
-            temp = HeightScr - (HeightA / ScaleY)
+            temp = Ys - HeightA
+            temp = HeightScr - (temp / ScaleY)
             TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
             ScaleX = SpeedA * TimefallScr / WidthScr
         else:
@@ -95,7 +94,8 @@ def CalScale( ValueA, ValueB ):
             ScaleX = SpeedA * TimefallScr / WidthScr
     if ( ValueB == 0 ):
         if ( Ys != HeightB ):
-            temp = HeightScr - (HeightB / ScaleY)
+            temp = Ys - HeightB
+            temp = HeightScr - (temp / ScaleY)
             TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
             ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
         else:
