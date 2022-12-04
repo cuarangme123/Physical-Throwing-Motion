@@ -70,7 +70,7 @@ def Nem( Height, Speed, Color ):
         posX = ( Speed * Time / ScaleX ) + BeginX
         posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
         if ( more != None ):
-            posY += HeightScr - (more / ScaleY)
+            posY += (more / ScaleY)
         GUI.graph.create_rectangle(posX,posY,posX,posY,outline=Color)
         time.sleep(0.001)
 
