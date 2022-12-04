@@ -140,7 +140,8 @@ def CalScale( ValueA, ValueB ):
     print(ScaleXY)
 def StartCal( ValueA, ValueB ):
     GUI.graph.delete('s')
-    global ScaleX, ScaleY, Ys, TimefallScr, AngleA
+    global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY
+    ScaleXY, ScaleX, ScaleY = None, None, None
     print(ValueA, ValueB)
     try:
         GetValue( ValueA, ValueB )
