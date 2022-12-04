@@ -74,7 +74,7 @@ def Xien( Speed, Angle, Color ):
         posY = ((Speed * np.sin(theta) * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleY
         posX += BeginX
         GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2)
-        time.sleep(0.001)
+        time.sleep(0.0001)
 
 def CalScale( ValueA, ValueB ):
     global ScaleX, ScaleY, Ys, HeightA, HeightB
