@@ -134,7 +134,7 @@ def CalScale( ValueA, ValueB ):
             ScaleX = max(ScaleX, ScaleXX)
         else:
             ScaleX = ScaleXX
-    ScaleXY = max(ScaleX, ScaleY)
+    ScaleXY = min(ScaleX, ScaleY)
     print(ScaleX) 
     print(ScaleY)
     print(ScaleXY)
