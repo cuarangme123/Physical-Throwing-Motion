@@ -71,7 +71,7 @@ def Nem( Height, Speed, Color ):
         posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
         if ( more != None ):
             posY += (more / ScaleY)
-        GUI.graph.create_rectangle(posX,posY,posX,posY,outline=Color)
+        GUI.graph.create_rectangle(posX,posY,posX,posY,outline=Color, width=5)
         time.sleep(0.001)
 
 def StartCal( ValueA, ValueB ):
