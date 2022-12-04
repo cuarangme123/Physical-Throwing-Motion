@@ -183,8 +183,10 @@ class manager:
                 storage.TextEntry.configure(text = "Chọn vật B")
                 storage.choiceA = value
                 storage.Choice = False
-            else:
+            elif ( storage.Choice == False ):
                 storage.choiceB = value
+                storage.Choice = None
+            if ( storage.Choice == None ):
                 graph.pack_forget()
                 hide.HideButton01()
                 hide.HideText01()
