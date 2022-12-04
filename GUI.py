@@ -2,11 +2,14 @@ import time
 import BackEnd
 from tkinter import *
 from tkinter.font import *
+from tkinter.constants import *
 
 GUI = Tk()
 graph = Canvas(width=1280, height=680)
-graph.create_line(160, 637.45, 1120, 637.45, width = 5 )
-graph.create_line(160, 640, 160, 42.5, width = 5 )
+imgbg = PhotoImage(file = "background.png")
+graph.create_image(0, 0, image = imgbg, anchor = NW)
+#graph.create_line(160, 637.45, 1120, 637.45, width = 5 )
+#graph.create_line(160, 640, 160, 42.5, width = 5 )
 class entry(Entry):
     def __init__(self, *args, **kwargs):
         Entry.__init__(self, *args, **kwargs)

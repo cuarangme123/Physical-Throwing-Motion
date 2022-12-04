@@ -55,13 +55,15 @@ def Nem( Height, Speed, Color ):
     if ( Ys != Height ):
         more = abs(Ys - Height)
     Time, posX, posY = 0, 0, 0
-    while ( posY <= EndY - 7 ):
+    while ( posY <= EndY - 5 ):
         Time += 0.01
-        posX = ( Speed * Time / ScaleX ) + BeginX + 3
+        posX = ( Speed * Time / ScaleX ) + BeginX
         posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
+        posY += 5
+        posX += 2
         if ( more != None ):
             posY += (more / ScaleY)
-        GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2)
+        GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2, tags = 's')
         time.sleep(0.001)
 
 def Xien( Speed, Angle, Color ):
@@ -73,7 +75,7 @@ def Xien( Speed, Angle, Color ):
         posX = ( Speed * np.cos(theta) * Time ) / ScaleX
         posY = ((Speed * np.sin(theta) * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleY
         posX += BeginX
-        GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2)
+        GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2, tags = 's')
         time.sleep(0.0001)
 
 def CalScale( ValueA, ValueB ):
@@ -134,6 +136,7 @@ def CalScale( ValueA, ValueB ):
             ScaleX = ScaleXX
     print(ScaleX)
 def StartCal( ValueA, ValueB ):
+    GUI.graph.delete('s')
     global ScaleX, ScaleY, Ys, TimefallScr, AngleA
     print(ValueA, ValueB)
     try:
