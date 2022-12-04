@@ -62,14 +62,14 @@ class storage:
     TextEntry = TextUI(GUI, height = 2, width = 15)
 
     TextHeightA = TextUI(GUI, text = "Nhập độ cao của vật A (m)", height = 1, width = 30)
-    TextAngleA = TextUI(GUI, text = "Nhập gốc ném của vật A (°)", height = 1, width = 30)
-    TextSpeedA = TextUI(GUI, text = "Nhập vật tốc của vật A (m/s)", height = 1, width = 30)
+    TextAngleA = TextUI(GUI, text = "Nhập góc ném của vật A (°)", height = 1, width = 30)
+    TextSpeedA = TextUI(GUI, text = "Nhập vận tốc của vật A (m/s)", height = 1, width = 30)
 
     ######################################################################################
 
     TextHeightB = TextUI(GUI, text = "Nhập độ cao của vật B (m)", height = 1, width = 30)
-    TextAngleB = TextUI(GUI, text = "Nhập gốc ném của vật B (°)", height = 1, width = 30)
-    TextSpeedB = TextUI(GUI, text = "Nhập vật tốc của vật B (m/s)", height = 1, width = 30)
+    TextAngleB = TextUI(GUI, text = "Nhập góc ném của vật B (°)", height = 1, width = 30)
+    TextSpeedB = TextUI(GUI, text = "Nhập vận tốc của vật B (m/s)", height = 1, width = 30)
     TextWA = TextUI(GUI, text = "Vui lòng nhập lại", height = 1, width = 30)
     Choice, choiceA, choiceB = None, None, None
 #test = button(GUI, text = "Ném", command = lambda: manager.Start(0), height = 4, width = 7)
