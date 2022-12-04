@@ -1,10 +1,23 @@
 import GUI
+import time
 import math
+import _thread
 from tkinter import *
 from tkinter.font import *
 
 # Give Value
 HeightA, AngelA, SpeedA, HeightB, AngelB, SpeedB = None, None, None, None, None, None
+BeginX, EndX, BeginY, EndY = 160, 1120, 42.5, 640
+
+#Cal
+ScaleX, ScaleY, Ys = None, None, None
+
+# Screen
+WidthScr, HeightScr = EndX - BeginX, EndY - BeginY
+TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
+
+# Scale
+DistanceMax = None
 
 def GetValue( ValueA, ValueB ):
     global HeightA, AngelA, SpeedA, HeightB, AngelB, SpeedB
@@ -18,6 +31,13 @@ def GetValue( ValueA, ValueB ):
     else:
         AngelB = float(GUI.storage.BoxAngleB.get())
     SpeedB = float(GUI.storage.BoxSpeedB.get())
+
+def YCal( Value, Angle, Time ):
+    if ( Value == 0 ):
+        return 0.5 * math.pi ** 2 * Time ** 2
+def XCal( Value, Angle, Speed, Time ):
+    if ( Value == 0 ):
+        return Speed * Time
 
 def fixNum( value ):
     Div = 5
@@ -39,14 +59,23 @@ def fixNum( value ):
         value = temp / f
     return value
 
-def Nem( Height, Speed ):
-    Timefall = math.sqrt(2 * Height / (math.pi * math.pi))
-    TotalDistance = Speed * Timefall
-    FixDistance = fixNum(TotalDistance)
-    FixHeight = fixNum(Height)
-    print("FixDistance:", FixDistance, "\nFixHeight", FixHeight)
+def Nem( Height, Speed, Color ):
+    global DistanceMax, HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys
+    more = None
+    if ( Ys != Height ):
+        more = abs(Ys - Height)
+    Time, posX, posY = 0, 0, 0
+    while ( posY <= EndY ):
+        Time += 0.01
+        posX = ( Speed * Time / ScaleX ) + BeginX
+        posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
+        if ( more != None ):
+            posY += HeightScr - (more / ScaleY)
+        GUI.graph.create_rectangle(posX,posY,posX,posY,outline=Color)
+        time.sleep(0.001)
 
 def StartCal( ValueA, ValueB ):
+    global ScaleX, ScaleY, Ys
     print(ValueA, ValueB)
     try:
         GetValue( ValueA, ValueB )
@@ -56,7 +85,16 @@ def StartCal( ValueA, ValueB ):
     GUI.hide.HideTextWA()
     GUI.show.ShowUIGraph()
     if ( ValueA == 0 ):
-        Nem(HeightA, SpeedA)
+        ScaleX = SpeedA * TimefallScr / WidthScr
+        ScaleY = HeightA
     if ( ValueB == 0 ):
-        Nem(HeightB, SpeedB)
+        ScaleX = max(ScaleX, SpeedB * TimefallScr / WidthScr)
+        ScaleY = max(ScaleY, HeightB)
+    Ys = ScaleY
+    ScaleY /= HeightScr
+    print(ScaleY)
+    if ( ValueA == 0 ):
+        _thread.start_new_thread(Nem, (HeightA, SpeedA, "red"))
+    if ( ValueB == 0 ):
+        _thread.start_new_thread(Nem, (HeightB, SpeedB, "green"))
     return
