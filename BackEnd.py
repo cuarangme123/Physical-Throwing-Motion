@@ -11,7 +11,7 @@ HeightA, AngleA, SpeedA, HeightB, AngleB, SpeedB = None, None, None, None, None,
 BeginX, EndX, BeginY, EndY = 160, 1120, 42.5, 640
 
 #Cal
-ScaleX, ScaleY, Ys = None, None, None
+ScaleX, ScaleY, Ys, ScaleXY = None, None, None, None
 
 # Screen
 WidthScr, HeightScr = EndX - BeginX, EndY - BeginY
@@ -57,12 +57,12 @@ def Nem( Height, Speed, Color ):
     Time, posX, posY = 0, 0, 0
     while ( posY <= EndY - 5 ):
         Time += 0.01
-        posX = ( Speed * Time / ScaleX ) + BeginX
+        posX = ( Speed * Time / ScaleXY ) + BeginX
         posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
         posY += 5
         posX += 2
         if ( more != None ):
-            posY += (more / ScaleY)
+            posY += (more / ScaleXY)
         GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2, tags = 's')
         time.sleep(0.001)
 
@@ -72,14 +72,14 @@ def Xien( Speed, Angle, Color ):
     theta = Angle * np.pi / 180
     while ( posY >= 0 ):
         Time += 0.001
-        posX = ( Speed * np.cos(theta) * Time ) / ScaleX
-        posY = ((Speed * np.sin(theta) * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleY
+        posX = ( Speed * np.cos(theta) * Time ) / ScaleXY
+        posY = ((Speed * np.sin(theta) * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
         GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2, tags = 's')
         time.sleep(0.0001)
 
 def CalScale( ValueA, ValueB ):
-    global ScaleX, ScaleY, Ys, HeightA, HeightB
+    global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY
     TimefallScr, ScaleXX = None, None
     WidA, WidB, WidMax = None, None, None
     if ( ValueA == 0 ):
@@ -134,7 +134,10 @@ def CalScale( ValueA, ValueB ):
             ScaleX = max(ScaleX, ScaleXX)
         else:
             ScaleX = ScaleXX
-    print(ScaleX)
+    ScaleXY = max(ScaleX, ScaleY)
+    print(ScaleX) 
+    print(ScaleY)
+    print(ScaleXY)
 def StartCal( ValueA, ValueB ):
     GUI.graph.delete('s')
     global ScaleX, ScaleY, Ys, TimefallScr, AngleA
