@@ -70,8 +70,11 @@ def Xien( Speed, Angle, Color ):
     global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys
     posX, posY, Time = 0, 0, 0
     theta = Angle * np.pi / 180
+    temp = ( Speed * np.cos(theta) * 1 ) / ScaleXY
+    temp = 1 / temp
+    print(temp)
     while ( posY >= 0 ):
-        Time += 0.001
+        Time += temp
         posX = ( Speed * np.cos(theta) * Time ) / ScaleXY
         posY = ((Speed * np.sin(theta) * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
@@ -138,9 +141,9 @@ def CalScale( ValueA, ValueB ):
                 ScaleX = ScaleXX
         ScaleXY = max(ScaleX, ScaleY)
         fix = ScaleXY
-    print(ScaleX) 
-    print(ScaleY)
-    print(ScaleXY)
+    #print(ScaleX) 
+    #print(ScaleY)
+    #print(ScaleXY)
 def StartCal( ValueA, ValueB ):
     GUI.graph.delete('s')
     global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY
