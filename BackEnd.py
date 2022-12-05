@@ -11,8 +11,7 @@ HeightA, AngleA, SpeedA, HeightB, AngleB, SpeedB = None, None, None, None, None,
 BeginX, EndX, BeginY, EndY = 160, 1120, 42.5, 640
 
 #Cal
-ScaleX, ScaleY, Ys, ScaleXY = None, None, None, None
-
+ScaleX, ScaleY, Ys, ScaleXY, TimeX = None, None, None, None, None
 # Screen
 WidthScr, HeightScr = EndX - BeginX, EndY - BeginY
 #test git hub
@@ -67,16 +66,13 @@ def Nem( Height, Speed, Color ):
         time.sleep(0.001)
 
 def Xien( Speed, Angle, Color ):
-    global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys
+    global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys, TimeX
     posX, posY, Time = 0, 0, 0
     theta = Angle * np.pi / 180
-    temp = ( Speed * np.cos(theta) * 1 ) 
-    temp = max(temp, ((Speed * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    temp = 1 / temp 
     cos = np.cos(theta)
     sin = np.sin(theta)
     while ( posY >= 0 ):
-        Time += temp 
+        Time += TimeX
         posX = ( Speed * cos * Time ) / ScaleXY
         posY = ((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
@@ -84,7 +80,7 @@ def Xien( Speed, Angle, Color ):
         time.sleep(0.0005)
 
 def CalScale( ValueA, ValueB ):
-    global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY
+    global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY, TimeX
     TimefallScr, ScaleXX = None, None
     WidA, WidB, WidMax = None, None, None
     if ( ValueA == 0 ):
@@ -143,6 +139,22 @@ def CalScale( ValueA, ValueB ):
                 ScaleX = ScaleXX
         ScaleXY = max(ScaleX, ScaleY)
         fix = ScaleXY
+    if ( ValueA == 1 ):
+        theta = AngleA * np.pi / 180
+        TimeX = ( SpeedA * np.cos(theta) * 1 ) / ScaleXY
+        TimeX = max(TimeX, ((SpeedA * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    if ( ValueB == 1 ):
+        theta = AngleB * np.pi / 180
+        if ( TimeX != None ):
+            TimeX = max(TimeX, ( SpeedB * np.cos(theta) * 1 ) / ScaleXY)
+            TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+        else:
+            TimeX = ( SpeedB * np.cos(theta) * 1 ) / ScaleXY
+            TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    TimeX = 1 / TimeX
+    #temp = ( Speed * np.cos(theta) * 1 ) / ScaleXY
+    #temp = max(temp, ((Speed * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    #temp = 1 / temp
     #print(ScaleX) 
     #print(ScaleY)
     #print(ScaleXY)
