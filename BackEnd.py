@@ -51,7 +51,7 @@ def fixNum( value ):
 
 def Nem( Height, Speed, Color ):
     global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys
-    more = None
+    more = 0
     if ( Ys != Height ):
         more = abs(Ys - Height)
     Time, posX, posY = 0, 0, 0
@@ -62,7 +62,7 @@ def Nem( Height, Speed, Color ):
         posY += 5
         posX += 2
         if ( more != None ):
-            posY += (more / ScaleXY)
+            posY += (more / max(Ys, Height)) * max(Ys,Height) / ScaleY
         GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2, tags = 's')
         time.sleep(0.001)
 
@@ -70,14 +70,15 @@ def Xien( Speed, Angle, Color ):
     global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys
     posX, posY, Time = 0, 0, 0
     theta = Angle * np.pi / 180
-    temp = ( Speed * np.cos(theta) * 1 ) / ScaleXY
+    temp = ( Speed * np.cos(theta) * 1 ) 
     temp = max(temp, ((Speed * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    temp = 1 / temp
-    temp /= 5
+    temp = 1 / temp 
+    cos = np.cos(theta)
+    sin = np.sin(theta)
     while ( posY >= 0 ):
-        Time += temp
-        posX = ( Speed * np.cos(theta) * Time ) / ScaleXY
-        posY = ((Speed * np.sin(theta) * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
+        Time += temp 
+        posX = ( Speed * cos * Time ) / ScaleXY
+        posY = ((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
         GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2, tags = 's')
         time.sleep(0.0005)
