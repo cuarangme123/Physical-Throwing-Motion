@@ -12,6 +12,7 @@ BeginX, EndX, BeginY, EndY = 160, 1120, 42.5, 640
 
 #Cal
 ScaleX, ScaleY, Ys, ScaleXY, TimeX = None, None, None, None, None
+HeightFix, WidgetFix = 0, 0
 # Screen
 WidthScr, HeightScr = EndX - BeginX, EndY - BeginY
 #test git hub
@@ -55,17 +56,20 @@ def Nem( Height, Speed, Color ):
         more = abs(Ys - Height)
     Time, posX, posY = 0, 0, 0
     while ( posY <= EndY - 5 ):
-        Time += 0.003
+        Time += 0.01
         posX = ( Speed * Time / ScaleXY ) + BeginX
         posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
+        print((posX - BeginX ) * ScaleXY, (posY - BeginY ) * ScaleXY)
         posY += 5
         posX += 2
         if ( more != None ):
             posY += (more / max(Ys, Height)) * max(Ys,Height) / ScaleY
         GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2, tags = 's')
+        time.sleep(0.001)
+    print(more)
 
 def Xien( Speed, Angle, Color ):
-    global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys, TimeX
+    global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys, TimeX, HeightFix, WidgetFix
     posX, posY, Time = 0, 0, 0
     theta = Angle * np.pi / 180
     cos = np.cos(theta)
@@ -74,35 +78,41 @@ def Xien( Speed, Angle, Color ):
         Time += TimeX
         posX = ( Speed * cos * Time ) / ScaleXY
         posY = ((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
+        #print(posX * ScaleXY, posY * ScaleXY)
         posX += BeginX
         GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2, tags = 's')
-        time.sleep(0.001)
+        time.sleep(0.0005)
 
 def CalScale( ValueA, ValueB ):
-    global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY, TimeX
+    global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY, TimeX, HeightFix, WidgetFix
     TimefallScr, ScaleXX = None, None
     WidA, WidB, WidMax = None, None, None
     if ( ValueA == 0 ):
-        ScaleY = HeightA
+        ScaleY = fixNum(HeightA)
+        WidgetFix = fixNum(SpeedA * np.sqrt(2 * HeightA / np.pi ** 2))
     else:
         theta = AngleA * np.pi / 180
         HeightA = (( SpeedA ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
-        ScaleY = HeightA
+        ScaleY = fixNum(HeightA)
         WidA = (SpeedA ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
-        WidMax = WidA
+        WidMax = fixNum(WidA)
     if ( ValueB == 0 ):
-        ScaleY = max(ScaleY, HeightB)
+        ScaleY = max(ScaleY, fixNum(HeightB))
+        WidgetFix = max( WidgetFix, fixNum(SpeedB * np.sqrt(2 * HeightB / np.pi ** 2)))
     else:
         theta = AngleB * np.pi / 180
         HeightB = (( SpeedB ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
-        ScaleY = max(ScaleY, HeightB)
+        ScaleY = max(ScaleY, fixNum(HeightB))
         WidB = (SpeedB ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
         if ( WidA != None ):
-            WidMax = max(WidA, WidB)
+            WidMax = max(fixNum(WidA), fixNum(WidB))
         else:
-            WidMax = WidB
+            WidMax = fixNum(WidB)
     if ( WidMax != None ):
+        WidgetFix = WidMax
         ScaleXX = WidMax / WidthScr
+    print(ScaleY)
+    HeightFix = ScaleY
     Ys = ScaleY
     ScaleY /= HeightScr
     fix = ScaleY
@@ -112,25 +122,25 @@ def CalScale( ValueA, ValueB ):
                 temp = Ys - HeightA
                 temp = HeightScr - (temp / fix)
                 TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
-                ScaleX = SpeedA * TimefallScr / WidthScr
+                ScaleX = fixNum(SpeedA * TimefallScr / WidthScr)
             else:
                 TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
-                ScaleX = SpeedA * TimefallScr / WidthScr
+                ScaleX = fixNum(SpeedA * TimefallScr / WidthScr)
         if ( ValueB == 0 ):
             if ( Ys != HeightB ):
                 temp = Ys - HeightB
                 temp = HeightScr - (temp / fix)
                 TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
                 if ( ScaleX != None ):
-                    ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
+                    ScaleX = max( ScaleX, fixNum( SpeedB * TimefallScr / WidthScr ))
                 else:
-                    ScaleX = SpeedB * TimefallScr / WidthScr
+                    ScaleX = fixNum(SpeedB * TimefallScr / WidthScr)
             else:
                 TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
                 if ( ScaleX != None ):
-                    ScaleX = max( ScaleX, SpeedB * TimefallScr / WidthScr )
+                    ScaleX = max( ScaleX, fixNum(SpeedB * TimefallScr / WidthScr) )
                 else:
-                    ScaleX = SpeedB * TimefallScr / WidthScr
+                    ScaleX = fixNum(SpeedB * TimefallScr / WidthScr)
         if ( ScaleXX != None ):
             if ( ScaleX != None ):
                 ScaleX = max(ScaleX, ScaleXX)
@@ -150,18 +160,15 @@ def CalScale( ValueA, ValueB ):
         else:
             TimeX = ( SpeedB * np.cos(theta) * 1 ) / ScaleXY
             TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    if TimeX != None:
+    if ( TimeX != None ):
         TimeX = 1 / TimeX
-    #temp = ( Speed * np.cos(theta) * 1 ) / ScaleXY
-    #temp = max(temp, ((Speed * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    #temp = 1 / temp
-    #print(ScaleX) 
-    #print(ScaleY)
-    #print(ScaleXY)
+    print(ScaleX, ScaleY, ScaleXY)
+    print(HeightFix, WidgetFix)
 def StartCal( ValueA, ValueB ):
     GUI.graph.delete('s')
-    global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY, TimeX
+    global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY, TimeX, HeightFix, WidgetFix
     ScaleXY, ScaleX, ScaleY, TimeX = None, None, None, None
+    HeightFix, WidgetFix = 0, 0
     print(ValueA, ValueB)
     try:
         GetValue( ValueA, ValueB )
@@ -171,6 +178,21 @@ def StartCal( ValueA, ValueB ):
     GUI.hide.HideTextWA()
     GUI.show.ShowUIGraph()
     CalScale( ValueA, ValueB )
+    num, pos = -HeightFix / 5, EndY + 119.5
+    for i in range(0, 6):
+        pos -= 119.5
+        num += HeightFix / 5
+        num = round(num, 2)
+        msg = str(num)
+        GUI.graph.create_text(100, pos, text=msg, tags = 's')
+    num , pos = -WidgetFix / 5, BeginX - 192
+    for i in range(0, 6):
+        pos += 192
+        num += WidgetFix / 5
+        num = round(num, 2)
+        msg = str(num)
+        GUI.graph.create_text(pos, 670, text=msg, tags = 's')
+
     if ( ValueA == 0 ):
         _thread.start_new_thread(Nem, (HeightA, SpeedA, "red"))
     else:
@@ -180,3 +202,5 @@ def StartCal( ValueA, ValueB ):
     else:
         _thread.start_new_thread(Xien, (SpeedB, AngleB, "green"))
     return
+
+    # 60 55
