@@ -151,7 +151,8 @@ def CalScale( ValueA, ValueB ):
         else:
             TimeX = ( SpeedB * np.cos(theta) * 1 ) / ScaleXY
             TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    TimeX = 1 / TimeX
+    if TimeX != None:
+        TimeX = 1 / TimeX
     #temp = ( Speed * np.cos(theta) * 1 ) / ScaleXY
     #temp = max(temp, ((Speed * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
     #temp = 1 / temp
