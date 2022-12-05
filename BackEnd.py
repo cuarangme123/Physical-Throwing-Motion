@@ -151,8 +151,7 @@ def CalScale( ValueA, ValueB ):
         else:
             TimeX = ( SpeedB * np.cos(theta) * 1 ) / ScaleXY
             TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    if TimeX != None:
-        TimeX = 1 / TimeX
+    TimeX = 1 / TimeX
     #temp = ( Speed * np.cos(theta) * 1 ) / ScaleXY
     #temp = max(temp, ((Speed * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
     #temp = 1 / temp
@@ -161,8 +160,8 @@ def CalScale( ValueA, ValueB ):
     #print(ScaleXY)
 def StartCal( ValueA, ValueB ):
     GUI.graph.delete('s')
-    global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY
-    ScaleXY, ScaleX, ScaleY = None, None, None
+    global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY, TimeX
+    ScaleXY, ScaleX, ScaleY, TimeX = None, None, None, None
     print(ValueA, ValueB)
     try:
         GetValue( ValueA, ValueB )
