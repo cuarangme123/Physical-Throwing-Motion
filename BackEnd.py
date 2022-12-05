@@ -58,8 +58,8 @@ def Nem( Height, Speed, Color ):
     while ( posY <= EndY - 5 ):
         Time += 0.01
         posX = ( Speed * Time / ScaleXY ) + BeginX
-        posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
-        print((posX - BeginX ) * ScaleXY, (posY - BeginY ) * ScaleXY)
+        posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) / ScaleXY + BeginY
+        #print((posX - BeginX ) * ScaleXY, (posY - BeginY ) * ScaleXY)
         posY += 5
         posX += 2
         if ( more != None ):
@@ -88,21 +88,21 @@ def CalScale( ValueA, ValueB ):
     TimefallScr, ScaleXX = None, None
     WidA, WidB, WidMax = None, None, None
     if ( ValueA == 0 ):
-        ScaleY = fixNum(HeightA)
+        ScaleY = HeightA
         WidgetFix = fixNum(SpeedA * np.sqrt(2 * HeightA / np.pi ** 2))
     else:
         theta = AngleA * np.pi / 180
         HeightA = (( SpeedA ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
-        ScaleY = fixNum(HeightA)
+        ScaleY = HeightA
         WidA = (SpeedA ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
         WidMax = fixNum(WidA)
     if ( ValueB == 0 ):
-        ScaleY = max(ScaleY, fixNum(HeightB))
+        ScaleY = max(ScaleY, HeightB)
         WidgetFix = max( WidgetFix, fixNum(SpeedB * np.sqrt(2 * HeightB / np.pi ** 2)))
     else:
         theta = AngleB * np.pi / 180
         HeightB = (( SpeedB ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
-        ScaleY = max(ScaleY, fixNum(HeightB))
+        ScaleY = max(ScaleY, HeightB)
         WidB = (SpeedB ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
         if ( WidA != None ):
             WidMax = max(fixNum(WidA), fixNum(WidB))
@@ -112,7 +112,7 @@ def CalScale( ValueA, ValueB ):
         WidgetFix = WidMax
         ScaleXX = WidMax / WidthScr
     print(ScaleY)
-    HeightFix = ScaleY
+    HeightFix = fixNum(ScaleY)
     Ys = ScaleY
     ScaleY /= HeightScr
     fix = ScaleY
