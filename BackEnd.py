@@ -76,7 +76,7 @@ def Xien( Speed, Angle, Color ):
     cos = np.cos(theta)
     sin = np.sin(theta)
     while ( posY >= 0 ):
-        Time += temp / 2
+        Time += temp
         posX = ( Speed * cos * Time ) / ScaleXY
         posY = ((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
