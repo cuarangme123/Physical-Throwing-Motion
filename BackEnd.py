@@ -70,12 +70,11 @@ def Xien( Speed, Angle, Color ):
     global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys
     posX, posY, Time = 0, 0, 0
     theta = Angle * np.pi / 180
-    temp = ( Speed * np.cos(theta) * 1 ) / ScaleXY
+    temp = ( Speed * np.cos(theta) * 1 ) 
     temp = max(temp, ((Speed * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    temp = 1 / temp
-    temp /= 5
+    temp = 2 / temp
     while ( posY >= 0 ):
-        Time += temp
+        Time += temp / 2
         posX = ( Speed * np.cos(theta) * Time ) / ScaleXY
         posY = ((Speed * np.sin(theta) * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
