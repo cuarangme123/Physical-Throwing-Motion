@@ -15,7 +15,7 @@ ScaleX, ScaleY, Ys, ScaleXY = None, None, None, None
 
 # Screen
 WidthScr, HeightScr = EndX - BeginX, EndY - BeginY
-
+#test git hub
 def GetValue( ValueA, ValueB ):
     global HeightA, AngleA, SpeedA, HeightB, AngleB, SpeedB
     if ( ValueA == 0 ):
