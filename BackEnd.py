@@ -63,7 +63,6 @@ def Nem( Height, Speed, Color ):
         if ( more != None ):
             posY += (more / max(Ys, Height)) * max(Ys,Height) / ScaleY
         GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2, tags = 's')
-        time.sleep(0.001)
 
 def Xien( Speed, Angle, Color ):
     global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys, TimeX
@@ -77,7 +76,6 @@ def Xien( Speed, Angle, Color ):
         posY = ((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
         GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2, tags = 's')
-        time.sleep(0.0005)
 
 def CalScale( ValueA, ValueB ):
     global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY, TimeX
