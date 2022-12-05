@@ -55,7 +55,7 @@ def Nem( Height, Speed, Color ):
         more = abs(Ys - Height)
     Time, posX, posY = 0, 0, 0
     while ( posY <= EndY - 5 ):
-        Time += 0.01
+        Time += 0.003
         posX = ( Speed * Time / ScaleXY ) + BeginX
         posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) + BeginY
         posY += 5
@@ -76,6 +76,7 @@ def Xien( Speed, Angle, Color ):
         posY = ((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
         posX += BeginX
         GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2, tags = 's')
+        time.sleep(0.001)
 
 def CalScale( ValueA, ValueB ):
     global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY, TimeX
