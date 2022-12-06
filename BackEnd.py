@@ -54,6 +54,8 @@ def Xien( Speed, Angle, Color ):
     posX, posY, Time = 0, 0, 0
     theta = Angle * np.pi / 180
     cos = np.cos(theta)
+    # height input
+    # h = (scrhigh - height)
     sin = np.sin(theta)
     while ( posY >= 0 ):
         Time += TimeX
