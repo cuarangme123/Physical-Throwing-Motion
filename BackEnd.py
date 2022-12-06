@@ -49,25 +49,6 @@ def fixNum( value ):
         value = temp / f
     return value
 
-def Nem( Height, Speed, Color ):
-    global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys
-    more = 0
-    if ( Ys != Height ):
-        more = abs(Ys - Height)
-    Time, posX, posY = 0, 0, 0
-    while ( posY <= EndY - 5 ):
-        Time += 0.01
-        posX = ( Speed * Time / ScaleXY ) + BeginX
-        posY = ( 0.5 * ( math.pi ** 2 ) * ( Time ** 2 ) ) / ScaleXY + BeginY
-        #print((posX - BeginX ) * ScaleXY, (posY - BeginY ) * ScaleXY)
-        posY += 5
-        posX += 2
-        if ( more != None ):
-            posY += (more / max(Ys, Height)) * max(Ys,Height) / ScaleY
-        GUI.graph.create_rectangle(posX,posY,posX,posY,outline = Color, width = 2, tags = 's')
-        time.sleep(0.001)
-    print(more)
-
 def Xien( Speed, Angle, Color ):
     global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys, TimeX, HeightFix, WidgetFix
     posX, posY, Time = 0, 0, 0
@@ -84,86 +65,45 @@ def Xien( Speed, Angle, Color ):
         time.sleep(0.0005)
 
 def CalScale( ValueA, ValueB ):
-    global ScaleX, ScaleY, Ys, HeightA, HeightB, ScaleXY, TimeX, HeightFix, WidgetFix
+    global ScaleX, ScaleY, ScaleXY, TimeX, HeightFix, WidgetFix
     TimefallScr, ScaleXX = None, None
-    WidA, WidB, WidMax = None, None, None
-    if ( ValueA == 0 ):
-        ScaleY = HeightA
-        WidgetFix = fixNum(SpeedA * np.sqrt(2 * HeightA / np.pi ** 2))
-    else:
+    WidA, WidB, WidMax, TimeX = None, None, 0, 0
+    if ( ValueA == 1 ):
         theta = AngleA * np.pi / 180
         HeightA = (( SpeedA ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
         ScaleY = HeightA
         WidA = (SpeedA ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
-        WidMax = fixNum(WidA)
-    if ( ValueB == 0 ):
-        ScaleY = max(ScaleY, HeightB)
-        WidgetFix = max( WidgetFix, fixNum(SpeedB * np.sqrt(2 * HeightB / np.pi ** 2)))
-    else:
+        WidMax = max(WidMax, WidA)
+    if ( ValueB == 1 ):
         theta = AngleB * np.pi / 180
         HeightB = (( SpeedB ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
         ScaleY = max(ScaleY, HeightB)
         WidB = (SpeedB ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
-        if ( WidA != None ):
-            WidMax = max(fixNum(WidA), fixNum(WidB))
-        else:
-            WidMax = fixNum(WidB)
+        WidMax = max(WidMax, WidB)
     if ( WidMax != None ):
         WidgetFix = WidMax
-        ScaleXX = WidMax / WidthScr
-    print(ScaleY)
-    HeightFix = fixNum(ScaleY)
-    Ys = ScaleY
+        ScaleX = fixNum(WidgetFix) / WidthScr
+    HeightFix = ScaleY
+    ScaleY = fixNum(ScaleY)
     ScaleY /= HeightScr
-    fix = ScaleY
-    for i in range(31415):
-        if ( ValueA == 0 ):
-            if ( Ys != HeightA ):
-                temp = Ys - HeightA
-                temp = HeightScr - (temp / fix)
-                TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
-                ScaleX = fixNum(SpeedA * TimefallScr / WidthScr)
-            else:
-                TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
-                ScaleX = fixNum(SpeedA * TimefallScr / WidthScr)
-        if ( ValueB == 0 ):
-            if ( Ys != HeightB ):
-                temp = Ys - HeightB
-                temp = HeightScr - (temp / fix)
-                TimefallScr = math.sqrt(2 * temp / (math.pi ** 2))
-                if ( ScaleX != None ):
-                    ScaleX = max( ScaleX, fixNum( SpeedB * TimefallScr / WidthScr ))
-                else:
-                    ScaleX = fixNum(SpeedB * TimefallScr / WidthScr)
-            else:
-                TimefallScr = math.sqrt(2 * HeightScr / (math.pi ** 2))
-                if ( ScaleX != None ):
-                    ScaleX = max( ScaleX, fixNum(SpeedB * TimefallScr / WidthScr) )
-                else:
-                    ScaleX = fixNum(SpeedB * TimefallScr / WidthScr)
-        if ( ScaleXX != None ):
-            if ( ScaleX != None ):
-                ScaleX = max(ScaleX, ScaleXX)
-            else:
-                ScaleX = ScaleXX
-        ScaleXY = max(ScaleX, ScaleY)
-        fix = ScaleXY
+    ScaleXY = max(ScaleX, ScaleY)
     if ( ValueA == 1 ):
         theta = AngleA * np.pi / 180
         TimeX = ( SpeedA * np.cos(theta) * 1 ) / ScaleXY
         TimeX = max(TimeX, ((SpeedA * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
     if ( ValueB == 1 ):
         theta = AngleB * np.pi / 180
-        if ( TimeX != None ):
-            TimeX = max(TimeX, ( SpeedB * np.cos(theta) * 1 ) / ScaleXY)
-            TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-        else:
-            TimeX = ( SpeedB * np.cos(theta) * 1 ) / ScaleXY
-            TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    if ( TimeX != None ):
-        TimeX = 1 / TimeX
-    print(ScaleX, ScaleY, ScaleXY)
-    print(HeightFix, WidgetFix)
+        TimeX = max(TimeX, ( SpeedB * np.cos(theta) * 1 ) / ScaleXY)
+        TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    TimeX = 1 / TimeX
+    print(HeightScr, HeightA / ScaleXY, HeightB / ScaleXY, HeightFix / ScaleXY)
+    print(WidthScr, WidA / ScaleXY, WidB / ScaleXY, WidgetFix / ScaleXY)
+    temp = HeightScr - ( HeightFix / ScaleXY )
+    temp *= ScaleXY
+    HeightFix += temp
+    temp = WidthScr - ( WidgetFix / ScaleXY )
+    temp *= ScaleXY
+    WidgetFix += temp
 def StartCal( ValueA, ValueB ):
     GUI.graph.delete('s')
     global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY, TimeX, HeightFix, WidgetFix
@@ -194,13 +134,9 @@ def StartCal( ValueA, ValueB ):
         msg = str(num)
         GUI.graph.create_text(pos, 670, text=msg, tags = 's')
 
-    if ( ValueA == 0 ):
-        _thread.start_new_thread(Nem, (HeightA, SpeedA, "red"))
-    else:
+    if ( ValueA == 1 ):
         _thread.start_new_thread(Xien, (SpeedA, AngleA, "red"))
-    if ( ValueB == 0 ):
-        _thread.start_new_thread(Nem, (HeightB, SpeedB, "green"))
-    else:
+    if ( ValueB == 1 ):
         _thread.start_new_thread(Xien, (SpeedB, AngleB, "green"))
     return
 
