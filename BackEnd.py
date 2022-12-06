@@ -23,14 +23,14 @@ def GetValue( ValueA, ValueB ):
         AngleA = 0
     else:
         AngleA = float(GUI.storage.BoxAngleA.get())
-        HeightA = 0
+        HeightA = float(GUI.storage.BoxHeightA.get())
     SpeedA = float(GUI.storage.BoxSpeedA.get())
     if ( ValueB == 0 ):
         HeightB = float(GUI.storage.BoxHeightB.get())
         AngleB = 0
     else:
         AngleB = float(GUI.storage.BoxAngleB.get())
-        HeightB = 0
+        HeightB = float(GUI.storage.BoxHeightB.get())
     SpeedB = float(GUI.storage.BoxSpeedB.get())
 
 def fixNum( value ):
