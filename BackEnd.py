@@ -179,6 +179,7 @@ def StartCal( ValueA, ValueB ):
     GUI.show.ShowUIGraph()
     CalScale( ValueA, ValueB )
     num, pos = -HeightFix / 5, EndY + 119.5
+    print("Height fix",HeightFix)
     for i in range(0, 6):
         pos -= 119.5
         num += HeightFix / 5
