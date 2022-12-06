@@ -20,13 +20,17 @@ def GetValue( ValueA, ValueB ):
     global HeightA, AngleA, SpeedA, HeightB, AngleB, SpeedB
     if ( ValueA == 0 ):
         HeightA = float(GUI.storage.BoxHeightA.get())
+        AngleA = 0
     else:
         AngleA = float(GUI.storage.BoxAngleA.get())
+        HeightA = 0
     SpeedA = float(GUI.storage.BoxSpeedA.get())
     if ( ValueB == 0 ):
         HeightB = float(GUI.storage.BoxHeightB.get())
+        AngleB = 0
     else:
         AngleB = float(GUI.storage.BoxAngleB.get())
+        HeightB = 0
     SpeedB = float(GUI.storage.BoxSpeedB.get())
 
 def fixNum( value ):
@@ -49,39 +53,57 @@ def fixNum( value ):
         value = temp / f
     return value
 
-def Xien( Speed, Angle, Color ):
+def Xien( Speed, Height, Angle, Color ):
     global HeightScr, WidthScr, ScaleX, ScaleY, BeginX, EndX, Ys, TimeX, HeightFix, WidgetFix
     posX, posY, Time = 0, 0, 0
     theta = Angle * np.pi / 180
     cos = np.cos(theta)
-    # height input
-    # h = (scrhigh - height)
     sin = np.sin(theta)
     while ( posY >= 0 ):
         Time += TimeX
         posX = ( Speed * cos * Time ) / ScaleXY
-        posY = ((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) / ScaleXY
+        posY = (((Speed * sin * Time) - ((math.pi ** 2) * (Time ** 2) / 2)) + Height ) / ScaleXY
         #print(posX * ScaleXY, posY * ScaleXY)
         posX += BeginX
         GUI.graph.create_rectangle(posX, EndY - posY, posX, EndY - posY, outline = Color, width = 2, tags = 's')
         time.sleep(0.0005)
 
+def printif():
+    num, pos = -HeightFix / 5, EndY + 119.5
+    for i in range(0, 6):
+        pos -= 119.5
+        num += HeightFix / 5
+        num = round(num, 2)
+        msg = str(num)
+        GUI.graph.create_text(100, pos, text=msg, tags = 's')
+    num , pos = -WidgetFix / 5, BeginX - 192
+    for i in range(0, 6):
+        pos += 192
+        num += WidgetFix / 5
+        num = round(num, 2)
+        msg = str(num)
+        GUI.graph.create_text(pos, 670, text=msg, tags = 's')
+
 def CalScale( ValueA, ValueB ):
     global ScaleX, ScaleY, ScaleXY, TimeX, HeightFix, WidgetFix
-    TimefallScr, ScaleXX = None, None
-    WidA, WidB, WidMax, TimeX = None, None, 0, 0
-    if ( ValueA == 1 ):
-        theta = AngleA * np.pi / 180
-        HeightA = (( SpeedA ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
-        ScaleY = HeightA
-        WidA = (SpeedA ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
-        WidMax = max(WidMax, WidA)
-    if ( ValueB == 1 ):
-        theta = AngleB * np.pi / 180
-        HeightB = (( SpeedB ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
-        ScaleY = max(ScaleY, HeightB)
-        WidB = (SpeedB ** 2) * np.sin(2*theta) / ( math.pi ** 2 )
-        WidMax = max(WidMax, WidB)
+    TimefallScr, ScaleXX, Ha, Hb = None, None, None, None
+    WidA, WidB, WidMax, TimeX, HeiA, HeiB = None, None, 0, 0, 0, 0
+    theta = AngleA * np.pi / 180
+    Ha = (( SpeedA ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
+    HeiA = HeightA + Ha
+    ScaleY = HeiA
+    WidA = (SpeedA ** 2) * np.sin(2 * theta) / ( math.pi ** 2 )
+    if ( HeightA > 0 ):
+        WidA += ( SpeedA * np.cos(theta) * np.sqrt(2 * (Ha + HeightA ) / np.pi ** 2))
+    WidMax = max(WidMax, WidA)
+    theta = AngleB * np.pi / 180
+    Hb = (( SpeedB ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
+    HeiB = HeightB + Hb
+    ScaleY = max(ScaleY, HeiB)
+    WidB = (SpeedB ** 2) * np.sin(2 * theta) / ( math.pi ** 2 )
+    if ( HeightB > 0 ):
+        WidB += ( SpeedB * np.cos(theta) * np.sqrt(2 * (Hb + HeightB ) / np.pi ** 2))
+    WidMax = max(WidMax, WidB)
     if ( WidMax != None ):
         WidgetFix = WidMax
         ScaleX = fixNum(WidgetFix) / WidthScr
@@ -89,17 +111,15 @@ def CalScale( ValueA, ValueB ):
     ScaleY = fixNum(ScaleY)
     ScaleY /= HeightScr
     ScaleXY = max(ScaleX, ScaleY)
-    if ( ValueA == 1 ):
-        theta = AngleA * np.pi / 180
-        TimeX = ( SpeedA * np.cos(theta) * 1 ) / ScaleXY
-        TimeX = max(TimeX, ((SpeedA * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    if ( ValueB == 1 ):
-        theta = AngleB * np.pi / 180
-        TimeX = max(TimeX, ( SpeedB * np.cos(theta) * 1 ) / ScaleXY)
-        TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    theta = AngleA * np.pi / 180
+    TimeX = ( SpeedA * np.cos(theta) * 1 ) / ScaleXY
+    TimeX = max(TimeX, ((SpeedA * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    theta = AngleB * np.pi / 180
+    TimeX = max(TimeX, ( SpeedB * np.cos(theta) * 1 ) / ScaleXY)
+    TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
     TimeX = 1 / TimeX
-    print(HeightScr, HeightA / ScaleXY, HeightB / ScaleXY, HeightFix / ScaleXY)
-    print(WidthScr, WidA / ScaleXY, WidB / ScaleXY, WidgetFix / ScaleXY)
+    print(HeightScr, HeiA, HeiB, HeightFix)
+    print(WidthScr, WidA, WidB, WidgetFix)
     temp = HeightScr - ( HeightFix / ScaleXY )
     temp *= ScaleXY
     HeightFix += temp
@@ -117,28 +137,12 @@ def StartCal( ValueA, ValueB ):
     except:
         GUI.show.ShowTextWA()
         return
+    print(AngleA, HeightA, SpeedA)
     GUI.hide.HideTextWA()
     GUI.show.ShowUIGraph()
     CalScale( ValueA, ValueB )
-    num, pos = -HeightFix / 5, EndY + 119.5
-    print("Height fix",HeightFix)
-    for i in range(0, 6):
-        pos -= 119.5
-        num += HeightFix / 5
-        num = round(num, 2)
-        msg = str(num)
-        GUI.graph.create_text(100, pos, text=msg, tags = 's')
-    num , pos = -WidgetFix / 5, BeginX - 192
-    for i in range(0, 6):
-        pos += 192
-        num += WidgetFix / 5
-        num = round(num, 2)
-        msg = str(num)
-        GUI.graph.create_text(pos, 670, text=msg, tags = 's')
-
-    if ( ValueA == 1 ):
-        _thread.start_new_thread(Xien, (SpeedA, AngleA, "red"))
-    if ( ValueB == 1 ):
-        _thread.start_new_thread(Xien, (SpeedB, AngleB, "green"))
+    printif()
+    _thread.start_new_thread(Xien, (SpeedA, HeightA, AngleA, "red"))
+    _thread.start_new_thread(Xien, (SpeedB, HeightB, AngleB, "green"))
     # fix
     return
