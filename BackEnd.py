@@ -94,7 +94,8 @@ def CalScale( ValueA, ValueB ):
     ScaleY = HeiA
     WidA = (SpeedA ** 2) * np.sin(2 * theta) / ( math.pi ** 2 )
     if ( HeightA > 0 ):
-        WidA += ( SpeedA * np.cos(theta) * np.sqrt(2 * (Ha + HeightA ) / np.pi ** 2))
+        WidA = SpeedA * np.cos(theta) * ( SpeedA * np.sin(theta) + np.sqrt( ( SpeedA * np.sin(theta) ) ** 2 + 2 * HeightA * np.pi ** 2 ))
+        WidA /= np.pi ** 2
     WidMax = max(WidMax, WidA)
     theta = AngleB * np.pi / 180
     Hb = (( SpeedB ** 2 ) * (np.sin(theta) ** 2)) / (2 * math.pi ** 2)
@@ -102,7 +103,8 @@ def CalScale( ValueA, ValueB ):
     ScaleY = max(ScaleY, HeiB)
     WidB = (SpeedB ** 2) * np.sin(2 * theta) / ( math.pi ** 2 )
     if ( HeightB > 0 ):
-        WidB += ( SpeedB * np.cos(theta) * np.sqrt(2 * (Hb + HeightB ) / np.pi ** 2))
+        WidB = SpeedB * np.cos(theta) * ( SpeedB * np.sin(theta) + np.sqrt( ( SpeedB * np.sin(theta) ) ** 2 + 2 * HeightB * np.pi ** 2 ))
+        WidB /= np.pi ** 2
     WidMax = max(WidMax, WidB)
     if ( WidMax != None ):
         WidgetFix = WidMax
