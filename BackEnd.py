@@ -9,6 +9,7 @@ import numpy as np
 # Give Value
 HeightA, AngleA, SpeedA, HeightB, AngleB, SpeedB = None, None, None, None, None, None
 BeginX, EndX, BeginY, EndY = 160, 1120, 42.5, 640
+WidA, WidB, HeiA, HeiB = None, None, None, None
 
 #Cal
 ScaleX, ScaleY, Ys, ScaleXY, TimeX = None, None, None, None, None
@@ -86,6 +87,7 @@ def printif():
 
 def CalScale( ValueA, ValueB ):
     global ScaleX, ScaleY, ScaleXY, TimeX, HeightFix, WidgetFix
+    global WidA, WidB, HeiA, HeiB
     TimefallScr, ScaleXX, Ha, Hb = None, None, None, None
     WidA, WidB, WidMax, TimeX, HeiA, HeiB = None, None, 0, 0, 0, 0
     theta = AngleA * np.pi / 180
@@ -128,9 +130,10 @@ def CalScale( ValueA, ValueB ):
     temp = WidthScr - ( WidgetFix / ScaleXY )
     temp *= ScaleXY
     WidgetFix += temp
+
 def StartCal( ValueA, ValueB ):
-    GUI.graph.delete('s')
     global ScaleX, ScaleY, Ys, TimefallScr, AngleA, ScaleXY, ScaleX, ScaleY, TimeX, HeightFix, WidgetFix
+    GUI.graph.delete('s')
     ScaleXY, ScaleX, ScaleY, TimeX = None, None, None, None
     HeightFix, WidgetFix = 0, 0
     print(ValueA, ValueB)
@@ -144,6 +147,8 @@ def StartCal( ValueA, ValueB ):
     GUI.show.ShowUIGraph()
     CalScale( ValueA, ValueB )
     printif()
+    GUI.graph.create_text( 230, 12, text =str(round(HeiA, 2)) + "(m) - " + str(round(WidA, 2)) + "(m)", tag = 's', font=('Consolas', -20, BOLD), fill = "red", anchor = NW);
+    GUI.graph.create_text( 830, 12, text =str(round(HeiB, 2)) + "(m) - " + str(round(WidB, 2)) + "(m)", tag = 's', font=('Consolas', -20, BOLD), fill = "green", anchor = NE);
     _thread.start_new_thread(Xien, (SpeedA, HeightA, AngleA, "red"))
     _thread.start_new_thread(Xien, (SpeedB, HeightB, AngleB, "green"))
     # fix

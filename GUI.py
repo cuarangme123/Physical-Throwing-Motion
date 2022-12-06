@@ -6,8 +6,9 @@ from tkinter.constants import *
 
 GUI = Tk()
 graph = Canvas(width=1280, height=680)
-imgbg = PhotoImage(file = "background.png")
+imgbg = PhotoImage(master = GUI, file = "background.png")
 graph.create_image(0, 0, image = imgbg, anchor = NW)
+graph.create_text( 1200, 200, text ="Max Độ Cao - Tầm Xa", font=('Consolas', -14, BOLD), fill = "blue", anchor = CENTER);
 #graph.create_line(160, 637.45, 1120, 637.45, width = 5 )
 #graph.create_line(160, 640, 160, 42.5, width = 5 )
 class entry(Entry):
@@ -216,4 +217,3 @@ def UI():
     show.ShowButton01()
     show.ShowText01()
     #manager.ShowEntry()
-    GUI.mainloop()
