@@ -138,6 +138,5 @@ def StartCal( ValueA, ValueB ):
         _thread.start_new_thread(Xien, (SpeedA, AngleA, "red"))
     if ( ValueB == 1 ):
         _thread.start_new_thread(Xien, (SpeedB, AngleB, "green"))
+    # fix
     return
-
-    # 60 55
