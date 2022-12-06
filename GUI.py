@@ -62,6 +62,7 @@ class storage:
     BoxAngleB = entry(GUI, width = 9)
 
     TextTitle = TextUI(GUI, text = "Chọn dạng chuyển động:", height = 2, width = 40)
+    TextEntry = TextUI(GUI, height = 2, width = 15)
 
     TextHeightA = TextUI(GUI, text = "Nhập độ cao của vật A (m)", height = 1, width = 30)
     TextAngleA = TextUI(GUI, text = "Nhập góc ném của vật A (°)", height = 1, width = 30)
@@ -98,6 +99,9 @@ class show:
 
     def ShowText01():
         storage.TextTitle.place(relx = 0.5, rely = 0.15, anchor = CENTER)
+        storage.TextEntry.place(relx = 0.5, rely = 0.4, anchor = CENTER)
+        
+        storage.TextEntry.configure(text = "Chọn vật A")
         storage.Choice = True
 
     def ShowText02( ValueA, ValueB ):
@@ -146,6 +150,7 @@ class hide:
 
     def HideText01():
         storage.TextTitle.place_forget()
+        storage.TextEntry.place_forget()
 
     def HideText02():
         storage.TextHeightA.place_forget()
@@ -175,8 +180,10 @@ class manager:
             exit()
         if ( value < 2 ): # Run Page 1
             if ( storage.Choice ):
+                storage.TextEntry.configure(text = "Chọn vật B")
                 storage.choiceA = value
                 storage.Choice = False
+            elif ( storage.Choice == False ):
                 storage.choiceB = value
                 storage.Choice = None
             if ( storage.Choice == None ):
