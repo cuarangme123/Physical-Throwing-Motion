@@ -64,13 +64,13 @@ class storage:
     TextTitle = TextUI(GUI, text = "Chọn dạng chuyển động:", height = 2, width = 40)
     TextEntry = TextUI(GUI, height = 2, width = 15)
 
-    TextHeightA = TextUI(GUI, text = "Nhập độ cao của vật A (m)", height = 1, width = 30)
+    TextHeightA = TextUI(GUI, text = "Nhập độ cao của vật A (m)", height = 1, width = 27)
     TextAngleA = TextUI(GUI, text = "Nhập góc ném của vật A (°)", height = 1, width = 30)
     TextSpeedA = TextUI(GUI, text = "Nhập vận tốc của vật A (m/s)", height = 1, width = 30)
 
     ######################################################################################
 
-    TextHeightB = TextUI(GUI, text = "Nhập độ cao của vật B (m)", height = 1, width = 30)
+    TextHeightB = TextUI(GUI, text = "Nhập độ cao của vật B (m)", height = 1, width = 27)
     TextAngleB = TextUI(GUI, text = "Nhập góc ném của vật B (°)", height = 1, width = 30)
     TextSpeedB = TextUI(GUI, text = "Nhập vận tốc của vật B (m/s)", height = 1, width = 30)
     TextWA = TextUI(GUI, text = "Vui lòng nhập lại", height = 1, width = 30)
@@ -86,6 +86,8 @@ class show:
         else:
             storage.BoxAngleA.place(relx = 0.5, rely = 0.15, anchor = CENTER)
             storage.BoxAngleA.delete(0, 'end')
+            storage.BoxHeightA.place(relx = 0.2, rely = 0.85, anchor = CENTER)
+            storage.BoxHeightA.delete(0, 'end')
         storage.BoxSpeedA.place(relx = 0.5, rely = 0.35, anchor = CENTER)
         storage.BoxSpeedA.delete(0, 'end')
         if ( ValueB == 0 ):
@@ -94,6 +96,8 @@ class show:
         else:
             storage.BoxAngleB.place(relx = 0.5, rely = 0.55, anchor = CENTER)
             storage.BoxAngleB.delete(0, 'end')
+            storage.BoxHeightB.place(relx = 0.8, rely = 0.85, anchor = CENTER)
+            storage.BoxHeightB.delete(0, 'end')
         storage.BoxSpeedB.place(relx = 0.5, rely = 0.75, anchor = CENTER)
         storage.BoxSpeedB.delete(0, 'end')
 
@@ -109,11 +113,13 @@ class show:
             storage.TextHeightA.place(relx = 0.5, rely = 0.05, anchor = CENTER)
         else:
             storage.TextAngleA.place(relx = 0.5, rely = 0.05, anchor = CENTER)
+            storage.TextHeightA.place(relx = 0.2, rely = 0.75, anchor = CENTER)
         storage.TextSpeedA.place(relx = 0.5, rely = 0.25, anchor = CENTER)
         if ( ValueB == 0 ):
             storage.TextHeightB.place(relx = 0.5, rely = 0.45, anchor = CENTER)
         else:
             storage.TextAngleB.place(relx = 0.5, rely = 0.45, anchor = CENTER)
+            storage.TextHeightB.place(relx = 0.8, rely = 0.75, anchor = CENTER)
         storage.TextSpeedB.place(relx = 0.5, rely = 0.65, anchor = CENTER)
 
     def ShowTextWA():
