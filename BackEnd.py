@@ -116,11 +116,13 @@ def CalScale( ValueA, ValueB ):
     ScaleY /= HeightScr
     ScaleXY = max(ScaleX, ScaleY)
     theta = AngleA * np.pi / 180
-    TimeX = ( SpeedA * np.cos(theta) * 1 ) / ScaleXY
-    TimeX = max(TimeX, ((SpeedA * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    SpeedH = SpeedA + ( np.pi ** 2 ) * np.sqrt( 2 * HeightA / np.pi ** 2 )
+    TimeX = ( SpeedH * np.cos(theta) * 1 ) / ScaleXY
+    TimeX = max(TimeX, ((SpeedH * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
     theta = AngleB * np.pi / 180
-    TimeX = max(TimeX, ( SpeedB * np.cos(theta) * 1 ) / ScaleXY)
-    TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
+    SpeedH = SpeedB + ( np.pi ** 2 ) * np.sqrt( 2 * HeightB / np.pi ** 2 )
+    TimeX = max(TimeX, ( SpeedH * np.cos(theta) * 1 ) / ScaleXY)
+    TimeX = max(TimeX, ((SpeedH * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
     TimeX = 1 / TimeX
     print(HeightScr, HeiA, HeiB, HeightFix)
     print(WidthScr, WidA, WidB, WidgetFix)

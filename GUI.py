@@ -9,7 +9,7 @@ graph = Canvas(width=1280, height=680)
 imgbg = PhotoImage(master = GUI, file = "background.png")
 graph.create_image(0, 0, image = imgbg, anchor = NW)
 graph.create_text( 1200, 200, text ="Max Độ Cao - Tầm Xa", font=('Consolas', -14, BOLD), fill = "blue", anchor = CENTER);
-graph.create_text( 1200, 250, text ="g = π^2", font=('Consolas', -14, BOLD), fill = "blue", anchor = CENTER);
+graph.create_text( 1200, 250, text ="g = π^2 (m/s^2)", font=('Consolas', -14, BOLD), fill = "blue", anchor = CENTER);
 #graph.create_line(160, 637.45, 1120, 637.45, width = 5 )
 #graph.create_line(160, 640, 160, 42.5, width = 5 )
 class entry(Entry):
