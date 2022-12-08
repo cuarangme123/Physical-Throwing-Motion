@@ -121,7 +121,7 @@ def CalScale( ValueA, ValueB ):
     theta = AngleB * np.pi / 180
     TimeX = max(TimeX, ( SpeedB * np.cos(theta) * 1 ) / ScaleXY)
     TimeX = max(TimeX, ((SpeedB * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    TimeX = 1 / TimeX
+    TimeX = 1 / TimeX / 3
     print(HeightScr, HeiA, HeiB, HeightFix)
     print(WidthScr, WidA, WidB, WidgetFix)
     temp = HeightScr - ( HeightFix / ScaleXY )
@@ -147,8 +147,8 @@ def StartCal( ValueA, ValueB ):
     GUI.show.ShowUIGraph()
     CalScale( ValueA, ValueB )
     printif()
-    GUI.graph.create_text( 230, 12, text =str(round(HeiA, 2)) + "(m) - " + str(round(WidA, 2)) + "(m)", tag = 's', font=('Consolas', -20, BOLD), fill = "red", anchor = NW);
-    GUI.graph.create_text( 830, 12, text =str(round(HeiB, 2)) + "(m) - " + str(round(WidB, 2)) + "(m)", tag = 's', font=('Consolas', -20, BOLD), fill = "green", anchor = NE);
+    GUI.graph.create_text( 230, 12, text =str(round(HeiA, 2)) + "(m) - " + str(round(WidA, 4)) + "(m)", tag = 's', font=('Consolas', -20, BOLD), fill = "red", anchor = NW);
+    GUI.graph.create_text( 830, 12, text =str(round(HeiB, 2)) + "(m) - " + str(round(WidB, 4)) + "(m)", tag = 's', font=('Consolas', -20, BOLD), fill = "green", anchor = NE);
     _thread.start_new_thread(Xien, (SpeedA, HeightA, AngleA, "red"))
     _thread.start_new_thread(Xien, (SpeedB, HeightB, AngleB, "green"))
     # fix
