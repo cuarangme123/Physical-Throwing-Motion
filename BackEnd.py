@@ -126,7 +126,7 @@ def CalScale( ValueA, ValueB ):
     SpeedH = SpeedB + ( np.pi ** 2 ) * np.sqrt( 2 * HeightB / np.pi ** 2 )
     TimeX = max(TimeX, ( SpeedH * np.cos(theta) * 1 ) / ScaleXY)
     TimeX = max(TimeX, ((SpeedH * np.sin(theta) * 1) - ((math.pi ** 2) * (1 ** 2) / 2)) / ScaleXY)
-    TimeX = 1 / TimeX / 3
+    TimeX = 1 / TimeX 
     print(HeightScr, HeiA, HeiB, HeightFix)
     print(WidthScr, WidA, WidB, WidgetFix)
     temp = HeightScr - ( HeightFix / ScaleXY )
